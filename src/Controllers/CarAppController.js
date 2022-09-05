@@ -9,6 +9,10 @@ const createCar=async(req,res) =>{
         userId:req.userId
     })
     try {
+        const existingregistrationnumber= await carModel.findOne({registration_number:registration_number})
+        if(existingregistrationnumber){
+            return res.status(400).json({message:"Registration Number Already Exists"});
+        }
         await newCar.save();
         res.status(201).json({message:"New Car Details Saved",newCar})
 
